@@ -1,0 +1,37 @@
+import requests
+import json
+import time
+
+def fetch_aave_staking_rewards():
+    # Aave API Endpoint (replace with the actual API if needed)
+    aave_api_url = "https://api.aave.com/staking/rewards"  # Example URL, replace as needed
+    
+    try:
+        response = requests.get(aave_api_url)
+        
+        # Check if the response status is successful
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Example: Parse staking rewards from the response
+            staking_rewards = data.get("stakingRewards", [])
+            if staking_rewards:
+                for reward in staking_rewards:
+                    asset = reward.get('asset', 'Unknown Asset')
+                    reward_amount = reward.get('rewardAmount', 'N/A')
+                    print(f"Asset: {asset}, Reward Amount: {reward_amount}")
+            else:
+                print("No staking rewards found.")
+        else:
+            print(f"Failed to fetch data. Status code: {response.status_code}")
+    
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Main function to run
+def main():
+    print("Fetching Aave staking rewards...")
+    fetch_aave_staking_rewards()
+
+if __name__ == "__main__":
+    main()
